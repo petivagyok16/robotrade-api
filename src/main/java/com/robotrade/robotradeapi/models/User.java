@@ -1,0 +1,82 @@
+package com.robotrade.robotradeapi.models;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.*;
+
+@Document(collection = "users")
+@Data
+@NoArgsConstructor
+public class User implements UserDetails {
+
+	@Id
+	private String id;
+
+	@NotBlank(message = "Username cannot be empty!")
+	private String username;
+
+	@Size(min = 4, message = "Password must be at least 4 characters long!")
+	private String password;
+
+	private Double cash;
+
+	private Double stock;
+
+	// These are needed for Spring basic authentication flow
+	private List<String> roles = new ArrayList<>();
+	private boolean enabled;
+
+	public User(
+					@JsonProperty("id") String id,
+					@JsonProperty("username") String username,
+					@JsonProperty("password") String password,
+					@JsonProperty("cash") Double cash,
+					@JsonProperty("stock") Double stock
+	) {
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.cash = cash;
+		this.stock = stock;
+
+		// TODO: authentication works currently with roles, so that all the users will get admin role, but we dont use roles in the client application
+		this.roles = Collections.singletonList("ROLE_ADMIN");
+		this.enabled = true;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return AuthorityUtils.createAuthorityList(roles.toArray(new String[roles.size()]));
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@JsonIgnore
+	public String getPassword() {
+		return password;
+	}
+
+}
