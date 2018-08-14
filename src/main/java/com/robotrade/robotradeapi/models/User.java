@@ -3,7 +3,6 @@ package com.robotrade.robotradeapi.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,7 +15,6 @@ import java.util.*;
 
 @Document(collection = "users")
 @Data
-@NoArgsConstructor
 public class User implements UserDetails {
 
 	@Id
@@ -33,7 +31,8 @@ public class User implements UserDetails {
 	private Double stock;
 
 	// These are needed for Spring basic authentication flow
-	private List<String> roles = new ArrayList<>();
+	private List<String> roles;
+
 	private boolean enabled;
 
 	public User(
@@ -55,21 +54,35 @@ public class User implements UserDetails {
 	}
 
 	@Override
+	@JsonIgnore
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return AuthorityUtils.createAuthorityList(roles.toArray(new String[roles.size()]));
 	}
 
+	@JsonIgnore
+	public boolean isEnabled() {
+		return this.enabled;
+	}
+
+//	@JsonIgnore
+	public List<String> getRoles() {
+		return this.roles;
+	}
+
 	@Override
+	@JsonIgnore
 	public boolean isAccountNonExpired() {
 		return true;
 	}
 
 	@Override
+	@JsonIgnore
 	public boolean isAccountNonLocked() {
 		return true;
 	}
 
 	@Override
+	@JsonIgnore
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
