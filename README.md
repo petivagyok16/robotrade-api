@@ -1,6 +1,4 @@
-# RoboTrade-API
-
-[![CircleCI](https://circleci.com/gh/petivagyok16/robotrade-api/tree/master.svg?style=svg)](https://circleci.com/gh/petivagyok16/robotrade-api/tree/master)
+# RoboTrade-API [![CircleCI](https://circleci.com/gh/petivagyok16/robotrade-api/tree/master.svg?style=svg)](https://circleci.com/gh/petivagyok16/robotrade-api/tree/master)
 
 ### Description
 
