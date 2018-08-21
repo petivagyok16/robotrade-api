@@ -1,5 +1,7 @@
 # RoboTrade-API
 
+[![CircleCI](https://circleci.com/gh/petivagyok16/robotrade-api/tree/master.svg?style=svg)](https://circleci.com/gh/petivagyok16/robotrade-api/tree/master)
+
 ### Description
 
 This API is the link between RoboTrade stock trader service and its clients.
