@@ -22,10 +22,6 @@ jobs:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
 
-      - image: mongo:3.6
-        ports:
-          - "27017:27017"
-
     working_directory: ~/repo
 
     environment:
