@@ -19,8 +19,6 @@ version: 2
 jobs:
   build:
     docker:
-      - image: buildpack-deps:trusty
-
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
 
@@ -54,11 +52,10 @@ jobs:
 
       # run tests!
       - run: mvn integration-test
-
-      - deploy:
-          steps:
-            - checkout
-            - run:
-                name: Deploy Master to Heroku
-                command: |
-                  git push https://heroku:f28779d3-6548-4b7b-985d-0fc251f33cc0@git.heroku.com/robotrade-api.git master
+  deploy:
+      steps:
+        - checkout
+        - run:
+            name: Deploy Master to Heroku
+            command: |
+              git push https://heroku:f28779d3-6548-4b7b-985d-0fc251f33cc0@git.heroku.com/robotrade-api.git master
