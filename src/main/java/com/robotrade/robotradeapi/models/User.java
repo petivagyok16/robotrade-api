@@ -64,7 +64,7 @@ public class User implements UserDetails {
 		return this.enabled;
 	}
 
-//	@JsonIgnore
+	@JsonIgnore
 	public List<String> getRoles() {
 		return this.roles;
 	}
