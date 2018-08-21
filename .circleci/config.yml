@@ -40,8 +40,8 @@ jobs:
       # run tests!
       - run: mvn integration-test
 
-  deployment:
-    staging:
-      branch: master
-      heroku:
-        appname: robotrade-api
+    deployment:
+      staging:
+        branch: master
+        heroku:
+          appname: robotrade-api
