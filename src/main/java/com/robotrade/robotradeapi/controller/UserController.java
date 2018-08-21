@@ -1,6 +1,7 @@
 package com.robotrade.robotradeapi.controller;
 
 import com.robotrade.robotradeapi.models.HttpResponseWrapper;
+import com.robotrade.robotradeapi.models.Portfolio;
 import com.robotrade.robotradeapi.models.User;
 import com.robotrade.robotradeapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,10 @@ public class UserController {
 	@GetMapping(value = "/{id}")
 	public Mono<ResponseEntity<HttpResponseWrapper<User>>> getUserProfile(@NotNull @PathVariable("id") String id) {
 		return this.userService.getUserProfile(id);
+	}
+
+	@GetMapping(value = "/portfolio/{id}")
+	public Mono<ResponseEntity<HttpResponseWrapper<Portfolio>>> getUserPortfolio(@NotNull @PathVariable("id") String id) {
+		return this.userService.getUserPortfolio(id);
 	}
 }

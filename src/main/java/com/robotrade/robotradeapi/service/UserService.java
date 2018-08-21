@@ -2,6 +2,7 @@ package com.robotrade.robotradeapi.service;
 
 import com.robotrade.robotradeapi.common.ExceptionThrower;
 import com.robotrade.robotradeapi.models.HttpResponseWrapper;
+import com.robotrade.robotradeapi.models.Portfolio;
 import com.robotrade.robotradeapi.models.User;
 import com.robotrade.robotradeapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +34,16 @@ public class UserService {
 						.single()
 						.doOnError(ExceptionThrower::userNotFound)
 						.flatMap(user -> Mono.just(ResponseEntity.ok().body(new HttpResponseWrapper<>(user))));
+	}
+
+	public Mono<ResponseEntity<HttpResponseWrapper<Portfolio>>> getUserPortfolio(String id) {
+		return this.userRepository.findById(id)
+						.single()
+						.doOnError(ExceptionThrower::userNotFound)
+						.flatMap(user -> {
+							Double portfolioValue = user.getStock() + user.getCash();
+							Portfolio userPortfolio = new Portfolio(user.getUsername(), user.getCash(), user.getStock(), portfolioValue);
+							return Mono.just(ResponseEntity.ok().body(new HttpResponseWrapper<>(userPortfolio)));
+						});
 	}
 }
