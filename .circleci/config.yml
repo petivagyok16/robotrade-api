@@ -4,12 +4,6 @@
 #
 version: 2
 jobs:
-  deployment:
-    staging:
-      branch: master
-      heroku:
-        appname: robotrade-api
-
   build:
     docker:
       # specify the version you desire here
@@ -45,3 +39,9 @@ jobs:
 
       # run tests!
       - run: mvn integration-test
+
+      - deployment:
+          staging:
+            branch: master
+            heroku:
+              appname: robotrade-api
