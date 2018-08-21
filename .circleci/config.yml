@@ -2,6 +2,19 @@
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+
 version: 2
 jobs:
   build:
