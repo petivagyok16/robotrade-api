@@ -17,7 +17,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 @RestController
 @RequestMapping(path = "/api/v1/users", produces = { APPLICATION_JSON_UTF8_VALUE })
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 @Validated
 public class UserController {
 
