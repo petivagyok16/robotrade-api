@@ -1,7 +1,9 @@
 package com.robotrade.robotradeapi.rabbitMQ.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
+@Data
 public class TransactionHistory {
 	String type;
 	Double capital;
