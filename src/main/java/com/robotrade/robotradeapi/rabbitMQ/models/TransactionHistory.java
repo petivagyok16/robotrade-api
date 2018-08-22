@@ -7,7 +7,7 @@ import lombok.Data;
 public class TransactionHistory {
 	String type;
 	Double capital;
-	Double stock;
+	Double stocks;
 	Number date; // epoch number
 
 	public TransactionHistory(
@@ -17,7 +17,7 @@ public class TransactionHistory {
 					@JsonProperty("date") Number date) {
 		this.type = type;
 		this.capital = capital;
-		this.stock = stock;
+		this.stocks = stocks;
 		this.date = date;
 	}
 }
