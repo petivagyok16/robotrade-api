@@ -1,6 +1,7 @@
-package com.robotrade.robotradeapi.rabbitMQ;
+package com.robotrade.robotradeapi.rabbitMQ.transactions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.robotrade.robotradeapi.rabbitMQ.constants.TransactionConstants;
 import com.robotrade.robotradeapi.rabbitMQ.models.Transaction;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -8,7 +9,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 @Slf4j
 public class TransactionReceiver {
 
-	@RabbitListener(queues = RabbitConstants.ROBO_TRANSACTION_QUEUE_NAME)
+	@RabbitListener(queues = TransactionConstants.ROBO_TRANSACTION_QUEUE_NAME)
 	public void receiveTransaction(String transaction) {
 		this.receive(transaction);
 	}

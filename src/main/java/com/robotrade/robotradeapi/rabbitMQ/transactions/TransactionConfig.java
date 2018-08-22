@@ -1,5 +1,6 @@
-package com.robotrade.robotradeapi.rabbitMQ;
+package com.robotrade.robotradeapi.rabbitMQ.transactions;
 
+import com.robotrade.robotradeapi.rabbitMQ.constants.TransactionConstants;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
@@ -8,11 +9,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RabbitConfig {
+public class TransactionConfig {
 
 	@Bean
 	public TopicExchange roboExchange() {
-		return new TopicExchange(RabbitConstants.ROBO_TOPIC_EXCHANGE_NAME);
+		return new TopicExchange(TransactionConstants.ROBO_TOPIC_EXCHANGE_NAME);
 	}
 
 	private static class TransactionReceiverConfig {
@@ -24,7 +25,7 @@ public class RabbitConfig {
 
 		@Bean
 		public Queue roboTransactionQueue() {
-			return new Queue(RabbitConstants.ROBO_TRANSACTION_QUEUE_NAME);
+			return new Queue(TransactionConstants.ROBO_TRANSACTION_QUEUE_NAME);
 		}
 
 		@Bean
@@ -32,7 +33,7 @@ public class RabbitConfig {
 																					Queue roboTransactionQueue) {
 			return BindingBuilder.bind(roboTransactionQueue)
 							.to(roboExchange)
-							.with(RabbitConstants.TRANSACTION_ROUTING_KEY);
+							.with(TransactionConstants.TRANSACTION_ROUTING_KEY);
 		}
 
 		@Bean
@@ -40,7 +41,7 @@ public class RabbitConfig {
 																								 Queue roboTransactionQueue) {
 			return BindingBuilder.bind(roboTransactionQueue)
 							.to(roboExchange)
-							.with(RabbitConstants.TRANSACTION_HISTORY_ROUTING_KEY);
+							.with(TransactionConstants.TRANSACTION_HISTORY_ROUTING_KEY);
 		}
 	}
 
