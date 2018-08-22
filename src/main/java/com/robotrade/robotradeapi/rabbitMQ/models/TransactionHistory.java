@@ -13,7 +13,7 @@ public class TransactionHistory {
 	public TransactionHistory(
 					@JsonProperty("type") String type,
 					@JsonProperty("capital") Double capital,
-					@JsonProperty("stock") Double stock,
+					@JsonProperty("stocks") Double stocks,
 					@JsonProperty("date") Number date) {
 		this.type = type;
 		this.capital = capital;
