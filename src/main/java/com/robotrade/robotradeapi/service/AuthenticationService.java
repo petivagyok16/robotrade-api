@@ -58,6 +58,7 @@ public class AuthenticationService {
 							if (exists) {
 								throw new UserAlreadyExistsException(ErrorMessages.USER_ALREADY_EXISTS);
 							} else {
+								newUser.setInitialInvestment(newUser.getCash());
 								return this.userRepository.save(newUser).map(savedUser ->
 												ResponseEntity.created(URI.create(String.format("users/%s", savedUser.getId()))).build());
 							}
