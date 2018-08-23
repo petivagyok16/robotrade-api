@@ -50,7 +50,7 @@ public class UserService {
 
 	public Mono<AllUsersCapital> getAllUsersCapital() {
 		return this.userRepository.findAll()
-						.map(user -> user.getCash())
+						.map(User::getCash)
 						.reduce(0.00, (c1, c2) -> c1 + c2)
 						.flatMap(capital -> Mono.just(new AllUsersCapital(capital)));
 	}
