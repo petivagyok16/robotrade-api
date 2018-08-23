@@ -47,11 +47,4 @@ public class UserService {
 							return Mono.just(ResponseEntity.ok().body(new HttpResponseWrapper<>(userPortfolio)));
 						});
 	}
-
-	public Mono<AllUsersCapital> getAllUsersCapital() {
-		return this.userRepository.findAll()
-						.map(User::getCash)
-						.reduce(0.00, (c1, c2) -> c1 + c2)
-						.flatMap(capital -> Mono.just(new AllUsersCapital(capital)));
-	}
 }

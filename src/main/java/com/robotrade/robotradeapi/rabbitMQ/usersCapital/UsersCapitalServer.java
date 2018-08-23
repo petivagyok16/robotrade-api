@@ -3,7 +3,7 @@ package com.robotrade.robotradeapi.rabbitMQ.usersCapital;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.robotrade.robotradeapi.rabbitMQ.constants.UserCapitalConstants;
 import com.robotrade.robotradeapi.rabbitMQ.models.AllUsersCapital;
-import com.robotrade.robotradeapi.service.UserService;
+import com.robotrade.robotradeapi.service.TransactionsCalculationService;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -14,10 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class UsersCapitalServer {
 
 	@Autowired
-	private UserService userService;
+	private TransactionsCalculationService transactionsCalculationService;
 
-	public UsersCapitalServer(UserService userService) {
-		this.userService = userService;
+	public UsersCapitalServer(TransactionsCalculationService transactionsCalculationService) {
+		this.transactionsCalculationService= transactionsCalculationService;
 	}
 
 	@RabbitListener(queues = UserCapitalConstants.USER_CAPITAL_QUEUE_NAME)
@@ -25,7 +25,7 @@ public class UsersCapitalServer {
 
 		log.info("Sending Transaction History!");
 		// TODO: try to find a way to get the value without blocking the stream
-		AllUsersCapital usersCapital = this.userService.getAllUsersCapital().block();
+		AllUsersCapital usersCapital = this.transactionsCalculationService.getAllUsersCapital().block();
 		log.info("*** Users Capital arrived! ***");
 		log.info(usersCapital.toString());
 
