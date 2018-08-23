@@ -9,6 +9,8 @@ public class Portfolio {
 	public Double stock;
 	public Double portfolio;
 
+	public Portfolio() {}
+
 	public Portfolio(String username, Double cash, Double stock, Double portfolio) {
 		this.username = username;
 		this.cash = cash;
