@@ -1,6 +1,7 @@
 package com.robotrade.robotradeapi.service;
 
 import com.robotrade.robotradeapi.common.ExceptionThrower;
+import com.robotrade.robotradeapi.converters.UserToPortfolio;
 import com.robotrade.robotradeapi.models.HttpResponseWrapper;
 import com.robotrade.robotradeapi.models.Portfolio;
 import com.robotrade.robotradeapi.models.User;
@@ -41,8 +42,7 @@ public class UserService {
 						.single()
 						.doOnError(ExceptionThrower::userNotFound)
 						.flatMap(user -> {
-							Double portfolioValue = user.getStock() + user.getCash();
-							Portfolio userPortfolio = new Portfolio(user.getUsername(), user.getCash(), user.getStock(), portfolioValue);
+							Portfolio userPortfolio = new UserToPortfolio().convert(user);
 							return Mono.just(ResponseEntity.ok().body(new HttpResponseWrapper<>(userPortfolio)));
 						});
 	}
