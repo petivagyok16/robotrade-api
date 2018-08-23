@@ -31,7 +31,8 @@ public class StartupRunner implements CommandLineRunner {
 	}
 
 	private void addUser() {
-		User testUser = new User("1", "test", this.passwordEncoder.encode("test"), 5.00, 10.00);
+		User testUser = new User("1", "test", this.passwordEncoder.encode("test"), 5.00);
+		testUser.setInitialInvestment(testUser.getCash());
 		this.userRepository.save(testUser).subscribe();
 	}
 }
