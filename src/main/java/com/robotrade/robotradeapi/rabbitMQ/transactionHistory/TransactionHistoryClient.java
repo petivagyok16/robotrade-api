@@ -3,7 +3,7 @@ package com.robotrade.robotradeapi.rabbitMQ.transactionHistory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.robotrade.robotradeapi.rabbitMQ.constants.TransactionHistoryConstants;
-import com.robotrade.robotradeapi.rabbitMQ.models.TransactionHistory;
+import com.robotrade.robotradeapi.rabbitMQ.models.TransactionHistoryFromPython;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.DirectExchange;
@@ -29,7 +29,7 @@ public class TransactionHistoryClient {
 		log.info(response);
 
 		try {
-			List<TransactionHistory> transactionHistory = mapper.readValue(response, new TypeReference<List<TransactionHistory>>(){});
+			List<TransactionHistoryFromPython> transactionHistoryFromPython = mapper.readValue(response, new TypeReference<List<TransactionHistoryFromPython>>(){});
 		} catch (Exception e) {
 			log.info("An error occurred while trying to read JSON!");
 			e.printStackTrace();

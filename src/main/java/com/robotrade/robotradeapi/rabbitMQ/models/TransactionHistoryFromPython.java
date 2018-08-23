@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class TransactionHistory {
+public class TransactionHistoryFromPython {
 	Number type;
 	Double capital;
 	Double stocks;
 	Number date; // epoch number
 
-	public TransactionHistory(
+	public TransactionHistoryFromPython(
 					@JsonProperty("type") Number type,
 					@JsonProperty("capital") Double capital,
 					@JsonProperty("stocks") Double stocks,
