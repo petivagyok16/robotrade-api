@@ -35,14 +35,6 @@ public class TransactionConfig {
 							.to(roboExchange)
 							.with(TransactionConstants.TRANSACTION_ROUTING_KEY);
 		}
-
-		@Bean
-		public Binding roboTransactionHistoryBinding(TopicExchange roboExchange,
-																								 Queue roboTransactionQueue) {
-			return BindingBuilder.bind(roboTransactionQueue)
-							.to(roboExchange)
-							.with(TransactionConstants.TRANSACTION_HISTORY_ROUTING_KEY);
-		}
 	}
 
 }

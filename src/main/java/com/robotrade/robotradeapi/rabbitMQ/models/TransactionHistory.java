@@ -5,16 +5,16 @@ import lombok.Data;
 
 @Data
 public class TransactionHistory {
-	String type;
+	Number type;
 	Double capital;
 	Double stocks;
 	Number date; // epoch number
 
 	public TransactionHistory(
-					@JsonProperty("type") String type,
+					@JsonProperty("type") Number type,
 					@JsonProperty("capital") Double capital,
 					@JsonProperty("stocks") Double stocks,
-					@JsonProperty("date") Number date) {
+					@JsonProperty("date") Long date) {
 		this.type = type;
 		this.capital = capital;
 		this.stocks = stocks;
