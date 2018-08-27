@@ -2,6 +2,7 @@ package com.robotrade.robotradeapi.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.robotrade.robotradeapi.rabbitMQ.models.Transaction;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -36,10 +37,13 @@ public class User implements UserDetails {
 
 	private Double stock;
 
+	private List<Transaction> transactionHistory;
+
 	// These are needed for Spring basic authentication flow
 	private List<String> roles;
 
 	private boolean enabled;
+
 
 	public User(
 					@JsonProperty("id") String id,
@@ -51,6 +55,7 @@ public class User implements UserDetails {
 		this.username = username;
 		this.password = password;
 		this.cash = cash;
+		this.transactionHistory = new ArrayList<>();
 
 		// TODO: authentication works currently with roles, so that all the users will get admin role, but we dont use roles in the client application
 		this.roles = Collections.singletonList("ROLE_ADMIN");
@@ -94,6 +99,11 @@ public class User implements UserDetails {
 	@JsonIgnore
 	public String getPassword() {
 		return password;
+	}
+
+	@JsonIgnore
+	public List<Transaction> getTransactionHistory() {
+		return this.transactionHistory;
 	}
 
 }
