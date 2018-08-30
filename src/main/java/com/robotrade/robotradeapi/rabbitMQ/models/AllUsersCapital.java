@@ -6,8 +6,6 @@ import lombok.Data;
 public class AllUsersCapital {
 	private double capital;
 
-	public AllUsersCapital() {};
-
 	public AllUsersCapital(double capital) {
 		this.capital = capital;
 	}
