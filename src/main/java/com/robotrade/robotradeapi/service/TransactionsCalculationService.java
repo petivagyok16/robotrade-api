@@ -3,6 +3,7 @@ package com.robotrade.robotradeapi.service;
 import com.robotrade.robotradeapi.common.ShareCalculator;
 import com.robotrade.robotradeapi.models.User;
 import com.robotrade.robotradeapi.models.UserTransaction;
+import com.robotrade.robotradeapi.oneSignal.PushNotificationSender;
 import com.robotrade.robotradeapi.rabbitMQ.models.AllUsersCapital;
 import com.robotrade.robotradeapi.models.TraderBotTransaction;
 import com.robotrade.robotradeapi.repository.UserRepository;
@@ -66,6 +67,9 @@ public class TransactionsCalculationService {
 											})
 											.collect(Collectors.toList()))
 			.flatMap(users -> this.userRepository.saveAll(users).collectList())
-			.subscribe(users -> log.info("New transaction added to users!"));
+			.subscribe(users -> {
+				PushNotificationSender.sendMessageToAllUsers("New transaction happened, check your holdings!");
+				log.info("New transaction added to users!");
+			});
 	}
 }
