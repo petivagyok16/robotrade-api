@@ -4,11 +4,11 @@ import lombok.Data;
 
 @Data
 public class AllUsersCapital {
-	private Double capital;
+	private double capital;
 
 	public AllUsersCapital() {};
 
-	public AllUsersCapital(Double capital) {
+	public AllUsersCapital(double capital) {
 		this.capital = capital;
 	}
 }
