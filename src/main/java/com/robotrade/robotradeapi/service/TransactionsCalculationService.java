@@ -66,6 +66,6 @@ public class TransactionsCalculationService {
 											})
 											.collect(Collectors.toList()))
 			.flatMap(users -> this.userRepository.saveAll(users).collectList())
-			.subscribe(fluxUsers -> log.info("New transaction added to users!"));
+			.subscribe(users -> log.info("New transaction added to users!"));
 	}
 }
