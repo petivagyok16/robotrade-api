@@ -30,9 +30,9 @@ public class User implements UserDetails {
 
 	@NotNull(message = "Cash cannot be null")
 	@Min(0)
-	private Double cash;
+	private double cash;
 
-	private Double stock;
+	private double stock;
 
 	private List<UserTransaction> transactionHistory;
 
@@ -46,7 +46,7 @@ public class User implements UserDetails {
 					@JsonProperty("id") String id,
 					@JsonProperty("username") String username,
 					@JsonProperty("password") String password,
-					@JsonProperty("cash") Double cash
+					@JsonProperty("cash") double cash
 	) {
 		this.id = id;
 		this.username = username;

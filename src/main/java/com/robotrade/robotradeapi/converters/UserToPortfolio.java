@@ -25,7 +25,7 @@ public class UserToPortfolio implements Converter<User, Portfolio>{
 		}
 
 		Portfolio portfolio = new Portfolio();
-		Double portfolioValue = user.getStock() + user.getCash();
+		double portfolioValue = user.getStock() + user.getCash();
 
 		portfolio.setCash(user.getCash());
 		portfolio.setStock(user.getStock());

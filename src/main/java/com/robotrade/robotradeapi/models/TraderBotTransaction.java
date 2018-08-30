@@ -6,11 +6,11 @@ import lombok.Data;
 public class TraderBotTransaction {
 
 	private Number type;
-	private Double cash;
-	private Double stock;
+	private double cash;
+	private double stock;
 	private Number date;
 
-	public TraderBotTransaction(Number type, Double cash, Double stock, Number date) {
+	public TraderBotTransaction(Number type, double cash, double stock, Number date) {
 		this.type = type;
 		this.cash = cash;
 		this.stock = stock;

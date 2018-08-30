@@ -5,13 +5,13 @@ import lombok.Data;
 @Data
 public class Portfolio {
 	public String username;
-	public Double cash;
-	public Double stock;
-	public Double portfolio;
+	public double cash;
+	public double stock;
+	public double portfolio;
 
 	public Portfolio() {}
 
-	public Portfolio(String username, Double cash, Double stock, Double portfolio) {
+	public Portfolio(String username, double cash, double stock, double portfolio) {
 		this.username = username;
 		this.cash = cash;
 		this.stock = stock;

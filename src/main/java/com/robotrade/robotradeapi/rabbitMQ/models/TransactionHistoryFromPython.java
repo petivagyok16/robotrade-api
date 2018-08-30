@@ -5,14 +5,14 @@ import lombok.Data;
 @Data
 public class TransactionHistoryFromPython {
 	Number type;
-	Double capital;
-	Double stocks;
+	double capital;
+	double stocks;
 	Number date; // epoch number
 
 	public TransactionHistoryFromPython(
 					Number type,
-					Double capital,
-					Double stocks,
+					double capital,
+					double stocks,
 					Long date) {
 		this.type = type;
 		this.capital = capital;
