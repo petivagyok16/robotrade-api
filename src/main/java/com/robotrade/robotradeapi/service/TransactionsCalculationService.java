@@ -1,8 +1,9 @@
 package com.robotrade.robotradeapi.service;
 
+import com.robotrade.robotradeapi.common.ShareCalculator;
 import com.robotrade.robotradeapi.models.User;
 import com.robotrade.robotradeapi.rabbitMQ.models.AllUsersCapital;
-import com.robotrade.robotradeapi.rabbitMQ.models.Transaction;
+import com.robotrade.robotradeapi.models.Transaction;
 import com.robotrade.robotradeapi.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,22 +33,41 @@ public class TransactionsCalculationService {
 						.flatMap(capital -> Mono.just(new AllUsersCapital(capital)));
 	}
 
-	// This is just a mock transaction history loader atm
-	public void distributeTransaction(Transaction transaction) {
+	public void distributeTransaction(Transaction traderBotTransaction) {
+		AtomicReference<Double> latestUsersCapitalCash = new AtomicReference<>(0.00);
+		AtomicReference<Double> latestUsersCapitalStock = new AtomicReference<>(0.00);
+
 		this.userRepository
-						.findAll()
-						.collectList()
-						.publishOn(Schedulers.parallel())
-						.flatMap(users -> Mono.just(users.stream()
-										.map(user -> {
-											List<Transaction> existingTransactions = user.getTransactionHistory();
-											existingTransactions.add(transaction);
-											user.setTransactionHistory(existingTransactions);
-											return user;
-										})
-										.collect(Collectors.toList()))
-						)
-						.flatMap(users -> this.userRepository.saveAll(users).collectList())
-						.subscribe(users -> log.info("Modified users saved!"));
+			.findAll()
+			.collectList()
+			.publishOn(Schedulers.parallel())
+			.map(users -> {
+				latestUsersCapitalCash.set(users.stream().mapToDouble(User::getCash).sum());
+				latestUsersCapitalStock.set(users.stream().mapToDouble(User::getStock).sum());
+				return users;
+			})
+			.map(users -> users
+											.stream()
+											.map(user -> {
+												List<Transaction> existingTransactions = user.getTransactionHistory();
+												Transaction userTransaction = this.calculateShare(latestUsersCapitalCash.get(), latestUsersCapitalStock.get(), user.getCash(), user.getStock(), traderBotTransaction);
+												existingTransactions.add(userTransaction);
+												user.setCash(userTransaction.getCash());
+												user.setStock(userTransaction.getStock());
+												user.setTransactionHistory(existingTransactions);
+												return user;
+											})
+											.collect(Collectors.toList()))
+			.map(this.userRepository::saveAll)
+			.subscribe(fluxUsers -> log.info("New transaction added to users!"));
+	}
+	// TODO: refactor
+	private Transaction calculateShare(double latestUsersCapitalCash, double latestUsersCapitalStock, double userCash, double userStock, Transaction traderBotTransaction) {
+		double cashMargin = ShareCalculator.calculateMargin(userCash, latestUsersCapitalCash);
+		double stockMargin = ShareCalculator.calculateMargin(userStock, latestUsersCapitalStock);
+		double cashShare = ShareCalculator.calculateShare(traderBotTransaction.getCash(), cashMargin);
+		double stockShare = ShareCalculator.calculateShare(traderBotTransaction.getStock(), stockMargin);
+
+		return new Transaction(UUID.randomUUID().toString(), traderBotTransaction.getType(), cashShare, stockShare, traderBotTransaction.getDate());
 	}
 }
