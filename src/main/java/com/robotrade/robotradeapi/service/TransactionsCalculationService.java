@@ -65,7 +65,7 @@ public class TransactionsCalculationService {
 												return user;
 											})
 											.collect(Collectors.toList()))
-			.map(this.userRepository::saveAll)
+			.flatMap(users -> this.userRepository.saveAll(users).collectList())
 			.subscribe(fluxUsers -> log.info("New transaction added to users!"));
 	}
 }
