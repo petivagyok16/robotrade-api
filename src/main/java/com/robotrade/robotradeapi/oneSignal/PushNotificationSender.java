@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class PushNotificationSender {
 
 	// Store these in a vault instead in a real world scenario...
-	public static final String REST_API_KEY = "NmVkZmJiMTQtMWRmZS00NzA5LWI1MmUtZDk0NmFmODY4ZTMy";
+	public static final String REST_API_KEY = "Basic NmVkZmJiMTQtMWRmZS00NzA5LWI1MmUtZDk0NmFmODY4ZTMy";
 	public static final String APP_ID = "14f30d34-e312-444e-bc77-1a88eddd9bb5";
 
 	public static void sendMessageToAllUsers(String message) {
