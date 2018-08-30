@@ -13,7 +13,6 @@ import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -35,23 +34,30 @@ public class TransactionsCalculationService {
 	}
 
 	public void distributeTransaction(TraderBotTransaction traderBotTransaction) {
-		AtomicReference<Double> latestUsersCapitalCash = new AtomicReference<>(0.00);
-		AtomicReference<Double> latestUsersCapitalStock = new AtomicReference<>(0.00);
+		AtomicReference<Double> latestAllUserCashHoldings = new AtomicReference<>(0.00);
+		AtomicReference<Double> latestAllUserStockHoldings = new AtomicReference<>(0.00);
 
 		this.userRepository
 			.findAll()
 			.collectList()
 			.publishOn(Schedulers.parallel())
 			.map(users -> {
-				latestUsersCapitalCash.set(users.stream().mapToDouble(User::getCash).sum());
-				latestUsersCapitalStock.set(users.stream().mapToDouble(User::getStock).sum());
+				latestAllUserCashHoldings.set(users.stream().mapToDouble(User::getCash).sum());
+				latestAllUserStockHoldings.set(users.stream().mapToDouble(User::getStock).sum());
 				return users;
 			})
 			.map(users -> users
 											.stream()
 											.map(user -> {
 												List<UserTransaction> existingTransactions = user.getTransactionHistory();
-												UserTransaction userTransaction = this.calculateShare(latestUsersCapitalCash.get(), latestUsersCapitalStock.get(), user.getCash(), user.getStock(), traderBotTransaction);
+
+												UserTransaction userTransaction = ShareCalculator.calculateShare(
+																latestAllUserCashHoldings.get(),
+																latestAllUserStockHoldings.get(),
+																user.getCash(),
+																user.getStock(),
+																traderBotTransaction);
+
 												existingTransactions.add(userTransaction);
 												user.setCash(userTransaction.getCash());
 												user.setStock(userTransaction.getStock());
@@ -60,15 +66,6 @@ public class TransactionsCalculationService {
 											})
 											.collect(Collectors.toList()))
 			.map(this.userRepository::saveAll)
-			.subscribe(fluxUsers -> log.info("New traderBotTransaction added to users!"));
-	}
-	// TODO: refactor
-	private UserTransaction calculateShare(double latestUsersCapitalCash, double latestUsersCapitalStock, double userCash, double userStock, TraderBotTransaction traderBotTransaction) {
-		double cashMargin = ShareCalculator.calculateMargin(userCash, latestUsersCapitalCash);
-		double stockMargin = ShareCalculator.calculateMargin(userStock, latestUsersCapitalStock);
-		double cashShare = ShareCalculator.calculateShare(traderBotTransaction.getCash(), cashMargin);
-		double stockShare = ShareCalculator.calculateShare(traderBotTransaction.getStock(), stockMargin);
-
-		return new UserTransaction(UUID.randomUUID().toString(), traderBotTransaction.getType(), cashShare, stockShare, traderBotTransaction.getDate());
+			.subscribe(fluxUsers -> log.info("New transaction added to users!"));
 	}
 }
