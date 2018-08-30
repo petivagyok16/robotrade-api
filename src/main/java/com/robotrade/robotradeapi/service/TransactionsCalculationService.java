@@ -2,8 +2,9 @@ package com.robotrade.robotradeapi.service;
 
 import com.robotrade.robotradeapi.common.ShareCalculator;
 import com.robotrade.robotradeapi.models.User;
+import com.robotrade.robotradeapi.models.UserTransaction;
 import com.robotrade.robotradeapi.rabbitMQ.models.AllUsersCapital;
-import com.robotrade.robotradeapi.models.Transaction;
+import com.robotrade.robotradeapi.models.TraderBotTransaction;
 import com.robotrade.robotradeapi.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class TransactionsCalculationService {
 						.flatMap(capital -> Mono.just(new AllUsersCapital(capital)));
 	}
 
-	public void distributeTransaction(Transaction traderBotTransaction) {
+	public void distributeTransaction(TraderBotTransaction traderBotTransaction) {
 		AtomicReference<Double> latestUsersCapitalCash = new AtomicReference<>(0.00);
 		AtomicReference<Double> latestUsersCapitalStock = new AtomicReference<>(0.00);
 
@@ -49,8 +50,8 @@ public class TransactionsCalculationService {
 			.map(users -> users
 											.stream()
 											.map(user -> {
-												List<Transaction> existingTransactions = user.getTransactionHistory();
-												Transaction userTransaction = this.calculateShare(latestUsersCapitalCash.get(), latestUsersCapitalStock.get(), user.getCash(), user.getStock(), traderBotTransaction);
+												List<UserTransaction> existingTransactions = user.getTransactionHistory();
+												UserTransaction userTransaction = this.calculateShare(latestUsersCapitalCash.get(), latestUsersCapitalStock.get(), user.getCash(), user.getStock(), traderBotTransaction);
 												existingTransactions.add(userTransaction);
 												user.setCash(userTransaction.getCash());
 												user.setStock(userTransaction.getStock());
@@ -59,15 +60,15 @@ public class TransactionsCalculationService {
 											})
 											.collect(Collectors.toList()))
 			.map(this.userRepository::saveAll)
-			.subscribe(fluxUsers -> log.info("New transaction added to users!"));
+			.subscribe(fluxUsers -> log.info("New traderBotTransaction added to users!"));
 	}
 	// TODO: refactor
-	private Transaction calculateShare(double latestUsersCapitalCash, double latestUsersCapitalStock, double userCash, double userStock, Transaction traderBotTransaction) {
+	private UserTransaction calculateShare(double latestUsersCapitalCash, double latestUsersCapitalStock, double userCash, double userStock, TraderBotTransaction traderBotTransaction) {
 		double cashMargin = ShareCalculator.calculateMargin(userCash, latestUsersCapitalCash);
 		double stockMargin = ShareCalculator.calculateMargin(userStock, latestUsersCapitalStock);
 		double cashShare = ShareCalculator.calculateShare(traderBotTransaction.getCash(), cashMargin);
 		double stockShare = ShareCalculator.calculateShare(traderBotTransaction.getStock(), stockMargin);
 
-		return new Transaction(UUID.randomUUID().toString(), traderBotTransaction.getType(), cashShare, stockShare, traderBotTransaction.getDate());
+		return new UserTransaction(UUID.randomUUID().toString(), traderBotTransaction.getType(), cashShare, stockShare, traderBotTransaction.getDate());
 	}
 }

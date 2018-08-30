@@ -3,7 +3,7 @@ package com.robotrade.robotradeapi.models;
 import lombok.Data;
 
 @Data
-public class Transaction {
+public class UserTransaction {
 
 	private String id;
 	private Number type;
@@ -11,14 +11,7 @@ public class Transaction {
 	private Double stock;
 	private Number date;
 
-	public Transaction(Number type, Double cash, Double stock, Number date) {
-		this.type = type;
-		this.cash = cash;
-		this.stock = stock;
-		this.date = date;
-	}
-
-	public Transaction(String id, Number type, Double cash, Double stock, Number date) {
+	public UserTransaction(String id, Number type, Double cash, Double stock, Number date) {
 		this.id = id;
 		this.type = type;
 		this.cash = cash;

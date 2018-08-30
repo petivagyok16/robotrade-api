@@ -23,7 +23,7 @@ public class UsersCapitalServer {
 	@RabbitListener(queues = UserCapitalConstants.USER_CAPITAL_QUEUE_NAME)
 	private String sendAllUsersCapital(String message) {
 
-		log.info("Sending Transaction History!");
+		log.info("Sending TraderBotTransaction History!");
 		// TODO: try to find a way to get the value without blocking the stream
 		AllUsersCapital usersCapital = this.transactionsCalculationService.getAllUsersCapital().block();
 		log.info("*** Users Capital arrived! ***");

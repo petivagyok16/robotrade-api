@@ -1,8 +1,8 @@
 package com.robotrade.robotradeapi.rabbitMQ.transactions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.robotrade.robotradeapi.models.TraderBotTransaction;
 import com.robotrade.robotradeapi.rabbitMQ.constants.TransactionConstants;
-import com.robotrade.robotradeapi.models.Transaction;
 import com.robotrade.robotradeapi.service.TransactionsCalculationService;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,8 +29,8 @@ public class TransactionReceiver {
 		ObjectMapper mapper = new ObjectMapper();
 
 		try {
-			Transaction transaction = mapper.readValue(transactionString, Transaction.class);
-			this.transactionsCalculationService.distributeTransaction(transaction);
+			TraderBotTransaction traderBotTransaction = mapper.readValue(transactionString, TraderBotTransaction.class);
+			this.transactionsCalculationService.distributeTransaction(traderBotTransaction);
 
 		} catch (Exception e) {
 			log.info(" --- Error during processing JSON object from Rabbit --- ");

@@ -36,7 +36,7 @@ public class User implements UserDetails {
 
 	private Double stock;
 
-	private List<Transaction> transactionHistory;
+	private List<UserTransaction> transactionHistory;
 
 	// These are needed for Spring basic authentication flow
 	private List<String> roles;
@@ -101,7 +101,7 @@ public class User implements UserDetails {
 	}
 
 	@JsonIgnore
-	public List<Transaction> getTransactionHistory() {
+	public List<UserTransaction> getTransactionHistory() {
 		return this.transactionHistory;
 	}
 
