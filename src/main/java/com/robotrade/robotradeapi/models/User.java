@@ -32,8 +32,6 @@ public class User implements UserDetails {
 	@Min(0)
 	private Double cash;
 
-	private Double initialInvestment;
-
 	private Double stock;
 
 	private List<UserTransaction> transactionHistory;

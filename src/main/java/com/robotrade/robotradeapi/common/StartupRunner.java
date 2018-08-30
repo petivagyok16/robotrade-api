@@ -37,11 +37,8 @@ public class StartupRunner implements CommandLineRunner {
 		User testUser = new User("1", "test", this.passwordEncoder.encode("test"), 100.00);
 		User testUser2 = new User("2", "test2", this.passwordEncoder.encode("test"), 150.00);
 		User testUser3 = new User("3", "test3", this.passwordEncoder.encode("test"), 250.00);
-		testUser.setInitialInvestment(testUser.getCash());
 		testUser.setStock(10.00);
-		testUser2.setInitialInvestment(testUser2.getCash());
 		testUser2.setStock(15.00);
-		testUser3.setInitialInvestment(testUser3.getCash());
 		testUser3.setStock(15.00);
 		this.userRepository.saveAll(Arrays.asList(testUser, testUser2, testUser3)).subscribe();
 	}
