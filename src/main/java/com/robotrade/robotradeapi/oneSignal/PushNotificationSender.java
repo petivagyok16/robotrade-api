@@ -37,7 +37,7 @@ public class PushNotificationSender {
 							+ "}";
 
 
-			System.out.println("strJsonBody:\n" + strJsonBody);
+//			System.out.println("strJsonBody:\n" + strJsonBody);
 
 			byte[] sendBytes = strJsonBody.getBytes("UTF-8");
 			con.setFixedLengthStreamingMode(sendBytes.length);
@@ -46,10 +46,10 @@ public class PushNotificationSender {
 			outputStream.write(sendBytes);
 
 			int httpResponse = con.getResponseCode();
-			System.out.println("httpResponse: " + httpResponse);
+//			System.out.println("httpResponse: " + httpResponse);
 
 			jsonResponse = mountResponseRequest(con, httpResponse);
-			System.out.println("jsonResponse:\n" + jsonResponse);
+//			System.out.println("jsonResponse:\n" + jsonResponse);
 
 		} catch(Throwable t) {
 			t.printStackTrace();
@@ -78,7 +78,7 @@ public class PushNotificationSender {
 							+ "}";
 
 
-			System.out.println("strJsonBody:\n" + strJsonBody);
+//			System.out.println("strJsonBody:\n" + strJsonBody);
 
 			byte[] sendBytes = strJsonBody.getBytes("UTF-8");
 			con.setFixedLengthStreamingMode(sendBytes.length);
@@ -87,10 +87,10 @@ public class PushNotificationSender {
 			outputStream.write(sendBytes);
 
 			int httpResponse = con.getResponseCode();
-			System.out.println("httpResponse: " + httpResponse);
+//			System.out.println("httpResponse: " + httpResponse);
 
 			jsonResponse = mountResponseRequest(con, httpResponse);
-			System.out.println("jsonResponse:\n" + jsonResponse);
+//			System.out.println("jsonResponse:\n" + jsonResponse);
 
 		} catch(Throwable t) {
 			t.printStackTrace();
