@@ -8,6 +8,9 @@ import java.util.UUID;
 public class ShareCalculator {
 
 	private static double calculateMargin(double currentUserValue, double latestAllUserValueHoldings) {
+		if (currentUserValue == 0 || latestAllUserValueHoldings == 0) {
+			return 100;
+		}
 		return (currentUserValue / latestAllUserValueHoldings) * 100.00;
 	}
 
