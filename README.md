@@ -27,4 +27,4 @@ This API is the link between RoboTrade stock trader service and its clients.
 
 ### Architecture
 
-[architecture](https://drive.google.com/open?id=14UGo6BOdPsEeAF68TVAg6Swj3fPFTVqg)
+![RoboTrade architecture](https://drive.google.com/file/d/1IqKuznRrZS8_lM-nz8CTqABtPULnmRTq/view?usp=sharing)
