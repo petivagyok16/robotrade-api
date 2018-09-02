@@ -12,19 +12,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+// TODO: Currently, we dont use this transaction history client because to User contains all the transactions but it may change in the future
 @NoArgsConstructor
 @Slf4j
 public class TransactionHistoryClient {
 
 	@Autowired
-	private RabbitTemplate template;
+	private RabbitTemplate cloudRabbitTemplate;
 
 	@Autowired
-	private DirectExchange exchange;
+	private DirectExchange transactionHistoryExchange;
+
+	public TransactionHistoryClient(RabbitTemplate cloudRabbitTemplate, DirectExchange transactionHistoryExchange) {
+		this.cloudRabbitTemplate = cloudRabbitTemplate;
+		this.transactionHistoryExchange = transactionHistoryExchange;
+	}
 
 	public void requestTransactionHistory() {
 		ObjectMapper mapper = new ObjectMapper();
-		String response = (String) template.convertSendAndReceive(this.exchange.getName(), TransactionHistoryConstants.TRANSACTION_HISTORY_REQUEST_ROUTING_KEY, "Requesting transaction history");
+		String response = (String) cloudRabbitTemplate.convertSendAndReceive(this.transactionHistoryExchange.getName(), TransactionHistoryConstants.TRANSACTION_HISTORY_REQUEST_ROUTING_KEY, "Requesting transaction history");
 		log.info(" *** TRANSACTION HISTORY RECEIVED: *** ");
 		log.info(response);
 
