@@ -12,6 +12,7 @@ This API is the link between RoboTrade stock trader service and its clients.
 - jsonwebtoken
 - Project lombok
 - Advanced Message Queuing Protocol
+- CircleCI + Heroku CI/CD
 
 ### How to install and run the project
 - import root folder as a project to IntelliJ
