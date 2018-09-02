@@ -25,4 +25,4 @@ This API is the link between RoboTrade stock trader service and its clients.
 
 ### Architecture
 
-![RoboTrade architecture](https://imgur.com/SLxb0z3)
+![RoboTrade architecture](https://i.imgur.com/SLxb0z3.jpg)
