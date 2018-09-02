@@ -5,33 +5,48 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class UsersCapitalConfig {
-	public static class ServerConfig {
+
+	@Autowired
+	private final RabbitAdmin cloudAMQPAdmin;
+
+	public UsersCapitalConfig(RabbitAdmin cloudAMQPAdmin) {
+		this.cloudAMQPAdmin = cloudAMQPAdmin;
+	}
+
+	public class UsersCapitalServerConfig {
 
 		@Bean
-		public Queue queue() {
-			return new Queue(UserCapitalConstants.USER_CAPITAL_QUEUE_NAME);
+		public Queue usersCapitalQueue() {
+			Queue usersCapitalQueue = new Queue(UserCapitalConstants.USERS_CAPITAL_QUEUE_NAME);
+			UsersCapitalConfig.this.cloudAMQPAdmin.declareQueue(usersCapitalQueue);
+			return usersCapitalQueue;
 		}
 
 		@Bean
-		public DirectExchange exchange() {
-			return new DirectExchange(UserCapitalConstants.USER_CAPITAL_EXCHANGE_NAME);
+		public DirectExchange usersCapitalExchange() {
+			DirectExchange usersCapitalExchange = new DirectExchange(UserCapitalConstants.USERS_CAPITAL_EXCHANGE_NAME);
+			UsersCapitalConfig.this.cloudAMQPAdmin.declareExchange(usersCapitalExchange);
+			return usersCapitalExchange;
 		}
 
 		@Bean
-		public Binding binding(DirectExchange exchange,
-													 Queue queue) {
-			return BindingBuilder.bind(queue)
-							.to(exchange)
-							.with(UserCapitalConstants.USER_CAPITAL_REQUEST_ROUTING_KEY);
+		public Binding usersCapitalBinding(DirectExchange usersCapitalExchange, Queue usersCapitalQueue) {
+			Binding usersCapitalBinding = BindingBuilder.bind(usersCapitalQueue)
+							.to(usersCapitalExchange)
+							.with(UserCapitalConstants.USERS_CAPITAL_REQUEST_ROUTING_KEY);
+			UsersCapitalConfig.this.cloudAMQPAdmin.declareBinding(usersCapitalBinding);
+			return usersCapitalBinding;
 		}
 
 		@Bean
-		public UsersCapitalServer server() {
+		public UsersCapitalServer usersCapitalServer() {
 			return new UsersCapitalServer();
 		}
 	}

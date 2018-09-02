@@ -20,7 +20,7 @@ public class UsersCapitalServer {
 		this.transactionsCalculationService= transactionsCalculationService;
 	}
 
-	@RabbitListener(queues = UserCapitalConstants.USER_CAPITAL_QUEUE_NAME)
+	@RabbitListener(queues = UserCapitalConstants.USERS_CAPITAL_QUEUE_NAME, admin = "cloudAMPQAdmin", containerFactory = "rabbitListenerContainerFactory")
 	private String sendAllUsersCapital(String message) {
 
 		log.info("Sending TraderBotTransaction History!");
