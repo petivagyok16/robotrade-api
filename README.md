@@ -4,6 +4,15 @@
 
 This API is the link between RoboTrade stock trader service and its clients.
 
+### Used technologies, libraries & languages
+- Java 1.8
+- Spring boot
+- maven package manager
+- Spring Webflux (reactive, non-blocking framework)
+- jsonwebtoken
+- Project lombok
+- Advanced Message Queuing Protocol
+
 ### How to install and run the project
 - import root folder as a project to IntelliJ
 - install maven dependencies
