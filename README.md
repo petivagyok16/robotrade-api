@@ -24,3 +24,7 @@ This API is the link between RoboTrade stock trader service and its clients.
 - IntelliJ or Eclipse
 - Project language level 8 - Lambdas, type annotations etc.
 - Target bytecode version: 1.8
+
+### Architecture
+
+![](https://drive.google.com/open?id=14UGo6BOdPsEeAF68TVAg6Swj3fPFTVqg)
