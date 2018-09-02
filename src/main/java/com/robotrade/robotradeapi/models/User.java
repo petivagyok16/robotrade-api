@@ -53,6 +53,7 @@ public class User implements UserDetails {
 		this.password = password;
 		this.cash = cash;
 		this.transactionHistory = new ArrayList<>();
+		this.stock = 0.00;
 
 		// TODO: authentication works currently with roles, so that all the users will get admin role, but we dont use roles in the client application
 		this.roles = Collections.singletonList("ROLE_ADMIN");
