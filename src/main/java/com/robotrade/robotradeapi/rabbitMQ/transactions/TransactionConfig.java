@@ -5,18 +5,27 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class TransactionConfig {
 
-	@Bean
-	public TopicExchange roboExchange() {
-		return new TopicExchange(TransactionConstants.ROBO_TOPIC_EXCHANGE_NAME);
+	@Autowired
+	private final RabbitAdmin cloudAMQPAdmin;
+
+	public TransactionConfig(RabbitAdmin cloudAMQPAdmin) {
+		this.cloudAMQPAdmin = cloudAMQPAdmin;
 	}
 
-	private static class TransactionReceiverConfig {
+	@Bean
+	public TopicExchange roboExchange() {
+		return new TopicExchange(TransactionConstants.ROBO_TRANSACTION_EXCHANGE_NAME);
+	}
+
+	private class TransactionReceiverConfig {
 
 		@Bean
 		public TransactionReceiver receiver() {
@@ -25,15 +34,20 @@ public class TransactionConfig {
 
 		@Bean
 		public Queue roboTransactionQueue() {
-			return new Queue(TransactionConstants.ROBO_TRANSACTION_QUEUE_NAME);
+			Queue roboTransactionQueue = new Queue(TransactionConstants.ROBO_TRANSACTION_QUEUE_NAME);
+			TransactionConfig.this.cloudAMQPAdmin.declareQueue(roboTransactionQueue);
+			return roboTransactionQueue;
 		}
 
 		@Bean
-		public Binding roboTransactionBinding(TopicExchange roboExchange,
-																					Queue roboTransactionQueue) {
-			return BindingBuilder.bind(roboTransactionQueue)
+		public Binding roboTransactionBinding(TopicExchange roboExchange, Queue roboTransactionQueue) {
+
+			Binding roboTransactionBinding = BindingBuilder.bind(roboTransactionQueue)
 							.to(roboExchange)
 							.with(TransactionConstants.TRANSACTION_ROUTING_KEY);
+
+			TransactionConfig.this.cloudAMQPAdmin.declareBinding(roboTransactionBinding);
+			return roboTransactionBinding;
 		}
 	}
 
