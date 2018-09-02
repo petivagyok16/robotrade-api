@@ -5,7 +5,7 @@ import com.robotrade.robotradeapi.exceptions.UserAlreadyExistsException;
 import com.robotrade.robotradeapi.exceptions.UserNotFoundException;
 import com.robotrade.robotradeapi.exceptions.WrongCredentialsException;
 import com.robotrade.robotradeapi.models.HttpResponseWrapper;
-import com.robotrade.robotradeapi.models.LoginResponseWrapper;
+import com.robotrade.robotradeapi.models.LoggedInUser;
 import com.robotrade.robotradeapi.models.User;
 import com.robotrade.robotradeapi.repository.UserRepository;
 import com.robotrade.robotradeapi.security.CustomPasswordEncoder;
@@ -73,7 +73,7 @@ public class AuthenticationService {
 	 *
 	 * @return HTTP 200, with Jwt token and user information
 	 */
-	public Mono<ResponseEntity<LoginResponseWrapper<User>>> signIn(JwtAuthenticationRequest authenticationRequest) {
+	public Mono<ResponseEntity<HttpResponseWrapper<LoggedInUser>>> signIn(JwtAuthenticationRequest authenticationRequest) {
 		return this.userRepository.findUserByUsername(authenticationRequest.getUsername())
 						.single()
 						.doOnError(error -> {
@@ -85,7 +85,7 @@ public class AuthenticationService {
 								return Mono.just(
 												ResponseEntity.ok()
 																.contentType(MediaType.APPLICATION_JSON_UTF8)
-																.body(new LoginResponseWrapper<>(user, this.jwtTokenUtil.generateToken(user)))
+																.body(new HttpResponseWrapper<>(new LoggedInUser(user, this.jwtTokenUtil.generateToken(user))))
 								);
 							} else {
 								throw new WrongCredentialsException(ErrorMessages.WRONG_CREDENTIALS);

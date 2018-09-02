@@ -1,7 +1,7 @@
 package com.robotrade.robotradeapi.controller;
 
 import com.robotrade.robotradeapi.models.HttpResponseWrapper;
-import com.robotrade.robotradeapi.models.LoginResponseWrapper;
+import com.robotrade.robotradeapi.models.LoggedInUser;
 import com.robotrade.robotradeapi.models.User;
 import com.robotrade.robotradeapi.security.JwtAuthenticationRequest;
 import com.robotrade.robotradeapi.service.AuthenticationService;
@@ -32,7 +32,7 @@ public class AuthenticationController {
 					consumes = MediaType.APPLICATION_JSON_VALUE,
 					produces = MediaType.APPLICATION_JSON_VALUE
 	)
-	public Mono<ResponseEntity<LoginResponseWrapper<User>>> signIn(@Valid @RequestBody JwtAuthenticationRequest authenticationRequest) {
+	public Mono<ResponseEntity<HttpResponseWrapper<LoggedInUser>>> signIn(@Valid @RequestBody JwtAuthenticationRequest authenticationRequest) {
 		return this.authService.signIn(authenticationRequest);
 	}
 
