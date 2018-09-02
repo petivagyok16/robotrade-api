@@ -5,6 +5,7 @@ import com.robotrade.robotradeapi.converters.UserToPortfolio;
 import com.robotrade.robotradeapi.models.HttpResponseWrapper;
 import com.robotrade.robotradeapi.models.Portfolio;
 import com.robotrade.robotradeapi.models.User;
+import com.robotrade.robotradeapi.models.UserTransaction;
 import com.robotrade.robotradeapi.rabbitMQ.models.AllUsersCapital;
 import com.robotrade.robotradeapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +47,12 @@ public class UserService {
 							Portfolio userPortfolio = new UserToPortfolio().convert(user);
 							return Mono.just(ResponseEntity.ok().body(new HttpResponseWrapper<>(userPortfolio)));
 						});
+	}
+
+	public Mono<ResponseEntity<HttpResponseWrapper<List<UserTransaction>>>> getUserTransactionHistory(String id) {
+		return this.userRepository.findById(id)
+						.single()
+						.doOnError(ExceptionThrower::userNotFound)
+						.flatMap(user -> Mono.just(ResponseEntity.ok().body(new HttpResponseWrapper<>(user.getTransactionHistory()))));
 	}
 }
