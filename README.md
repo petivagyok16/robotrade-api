@@ -27,4 +27,4 @@ This API is the link between RoboTrade stock trader service and its clients.
 
 ### Architecture
 
-![RoboTrade architecture](https://drive.google.com/file/d/1IqKuznRrZS8_lM-nz8CTqABtPULnmRTq/view?usp=sharing)
+![RoboTrade architecture](https://octodex.github.com/images/yaktocat.png)
