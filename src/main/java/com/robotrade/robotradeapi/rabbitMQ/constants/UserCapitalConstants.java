@@ -1,8 +1,8 @@
 package com.robotrade.robotradeapi.rabbitMQ.constants;
 
 public class UserCapitalConstants {
-	public static final String USER_CAPITAL_REQUEST_ROUTING_KEY = "roboUserCapitalRequest";
-	public static final String USER_CAPITAL_EXCHANGE_NAME= "roboUserCapitalExchange";
-	public static final String USER_CAPITAL_QUEUE_NAME= "roboUserCapitalQueue";
+	public static final String USERS_CAPITAL_REQUEST_ROUTING_KEY = "roboTrade.users-capital";
+	public static final String USERS_CAPITAL_EXCHANGE_NAME= "robo-users-capital-exchange";
+	public static final String USERS_CAPITAL_QUEUE_NAME= "robo-users-capital-queue";
 
 }
