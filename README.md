@@ -11,7 +11,7 @@ This API is the link between RoboTrade stock trader service and its clients.
 - Spring Webflux (reactive, non-blocking framework)
 - jsonwebtoken
 - Project lombok
-- Advanced Message Queuing Protocol
+- Advanced Message Queuing Protocol by RabbitMQ
 - CircleCI + Heroku CI/CD
 
 ### How to install and run the project
