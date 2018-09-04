@@ -16,6 +16,7 @@ public class PushNotificationSender {
 	public static final String APP_ID = "14f30d34-e312-444e-bc77-1a88eddd9bb5";
 
 	public static void sendMessageToAllUsers(String message) {
+		System.out.println("OneSignal api key: " + System.getenv("ONESIGNAL_API_KEY"));
 		try {
 			String jsonResponse;
 
