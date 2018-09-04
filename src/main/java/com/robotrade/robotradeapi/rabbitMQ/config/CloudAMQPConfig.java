@@ -1,6 +1,6 @@
 package com.robotrade.robotradeapi.rabbitMQ.config;
 
-import com.robotrade.robotradeapi.rabbitMQ.constants.CloudAMPQCredentials;
+import com.robotrade.robotradeapi.rabbitMQ.constants.CloudAMQPCredentials;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -16,10 +16,10 @@ public class CloudAMQPConfig {
 	private final CachingConnectionFactory cloudAMPQConnection;
 
 	public CloudAMQPConfig() {
-		CachingConnectionFactory connectionFactory = new CachingConnectionFactory(CloudAMPQCredentials.HOSTNAME);
-		connectionFactory.setUsername(CloudAMPQCredentials.USERNAME);
-		connectionFactory.setPassword(CloudAMPQCredentials.PASSWORD);
-		connectionFactory.setVirtualHost(CloudAMPQCredentials.VIRTUAL_HOST);
+		CachingConnectionFactory connectionFactory = new CachingConnectionFactory(CloudAMQPCredentials.HOSTNAME);
+		connectionFactory.setUsername(CloudAMQPCredentials.USERNAME);
+		connectionFactory.setPassword(CloudAMQPCredentials.PASSWORD);
+		connectionFactory.setVirtualHost(CloudAMQPCredentials.VIRTUAL_HOST);
 
 		// Recommended settings
 		connectionFactory.setRequestedHeartBeat(30);
