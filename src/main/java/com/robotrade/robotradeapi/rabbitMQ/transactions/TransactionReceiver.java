@@ -20,7 +20,7 @@ public class TransactionReceiver {
 		this.transactionsCalculationService = transactionsCalculationService;
 	}
 
-	@RabbitListener(queues = TransactionConstants.ROBO_TRANSACTION_QUEUE_NAME, admin = "cloudAMPQAdmin", containerFactory = "rabbitListenerContainerFactory")
+	@RabbitListener(queues = TransactionConstants.ROBO_TRANSACTION_QUEUE_NAME, admin = "cloudAMQPAdmin", containerFactory = "rabbitListenerContainerFactory")
 	public void receiveTransaction(String transaction) {
 		this.receive(transaction);
 	}

@@ -11,10 +11,10 @@ import org.springframework.context.annotation.Configuration;
 public class TransactionHistoryConfig {
 
 	@Autowired
-	private final RabbitAdmin cloudAMPQAdmin;
+	private final RabbitAdmin cloudAMQPAdmin;
 
-	public TransactionHistoryConfig(RabbitAdmin cloudAMPQAdmin) {
-		this.cloudAMPQAdmin = cloudAMPQAdmin;
+	public TransactionHistoryConfig(RabbitAdmin cloudAMQPAdmin) {
+		this.cloudAMQPAdmin = cloudAMQPAdmin;
 	}
 
 	public class TransactionHistoryClientConfig {
@@ -22,7 +22,7 @@ public class TransactionHistoryConfig {
 		@Bean
 		public DirectExchange transactionHistoryExchange() {
 			DirectExchange transactionHistoryExchange = new DirectExchange(TransactionHistoryConstants.TRANSACTION_HISTORY_EXCHANGE_NAME);
-			TransactionHistoryConfig.this.cloudAMPQAdmin.declareExchange(transactionHistoryExchange);
+			TransactionHistoryConfig.this.cloudAMQPAdmin.declareExchange(transactionHistoryExchange);
 			return transactionHistoryExchange;
 		}
 

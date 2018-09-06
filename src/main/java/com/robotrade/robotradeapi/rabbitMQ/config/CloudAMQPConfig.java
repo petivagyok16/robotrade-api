@@ -37,7 +37,7 @@ public class CloudAMQPConfig {
 	}
 
 	@Bean
-	public RabbitAdmin cloudAMPQAdmin() {
+	public RabbitAdmin cloudAMQPAdmin() {
 		return new RabbitAdmin(this.cloudAMPQConnection);
 	}
 
