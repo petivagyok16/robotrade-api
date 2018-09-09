@@ -2,6 +2,7 @@ package com.robotrade.robotradeapi.security;
 
 import com.robotrade.robotradeapi.common.ErrorMessages;
 import com.robotrade.robotradeapi.exceptions.InvalidTokenException;
+import com.robotrade.robotradeapi.models.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Clock;
 import io.jsonwebtoken.Jwts;
@@ -65,8 +66,9 @@ public class JwtTokenUtil implements Serializable {
 		return (SecurityConstants.AUDIENCE_TABLET.equals(audience) || SecurityConstants.AUDIENCE_MOBILE.equals(audience));
 	}
 
-	public String generateToken(UserDetails userDetails) {
+	public String generateToken(User userDetails) {
 		Map<String, Object> claims = new HashMap<>();
+		claims.put("id", userDetails.getId());
 		return this.doGenerateToken(claims, userDetails.getUsername(), SecurityConstants.AUDIENCE_UNKNOWN);
 	}
 
@@ -106,12 +108,8 @@ public class JwtTokenUtil implements Serializable {
 
 	public Boolean validateToken(String token) {
 		final String username = this.getUsernameFromToken(token);
-		final Date created = this.getIssuedAtDateFromToken(token);
 
-		return (
-						username.equals(username)
-										&& !this.isTokenExpired(token)
-		);
+		return ((username != null) && !this.isTokenExpired(token));
 	}
 
 	public String formatToken(String bearerToken) {
@@ -123,6 +121,6 @@ public class JwtTokenUtil implements Serializable {
 	}
 
 	private Date calculateExpirationDate(Date createdDate) {
-		return new Date(createdDate.getTime() + SecurityConstants.EXPIRATION_TIME * 1000);
+		return new Date(createdDate.getTime() + SecurityConstants.EXPIRATION_TIME);
 	}
 }
