@@ -70,7 +70,26 @@ public class JwtAuthenticationConverter implements Function<ServerWebExchange, M
 
 			return Mono.empty();
 		} catch (Exception e) {
-			throw new InvalidTokenException("Invalid token...");
+			return Mono.error(new InvalidTokenException("Failed to parse JWT token. Try again."));
 		}
+	}
+
+	private String hasAuthorizationHeader(ServerHttpRequest request) {
+		return request.getHeaders().getFirst(SecurityConstants.TOKEN_HEADER);
+	}
+
+	private String hasBearerPrefix(String bearerToken) {
+		if (bearerToken.startsWith(SecurityConstants.TOKEN_PREFIX)) {
+			return bearerToken;
+		}
+		return null;
+	}
+
+	private String extractToken(String bearerToken) {
+		return bearerToken.substring(SecurityConstants.TOKEN_PREFIX.length());
+	}
+
+	private String getUsernameFromToken(String authToken) {
+		return jwtTokenUtil.getUsernameFromToken(authToken);
 	}
 }

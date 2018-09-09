@@ -113,8 +113,8 @@ public class JwtTokenUtil implements Serializable {
 	}
 
 	public String formatToken(String bearerToken) {
-		if (bearerToken != null && bearerToken.startsWith(SecurityConstants.TOKEN_PREFIX + " ")) {
-			return bearerToken.substring(7);
+		if (bearerToken != null && bearerToken.startsWith(SecurityConstants.TOKEN_PREFIX)) {
+			return bearerToken.substring(SecurityConstants.TOKEN_PREFIX.length());
 		} else {
 			throw new InvalidTokenException(ErrorMessages.INVALID_TOKEN);
 		}
