@@ -36,7 +36,7 @@ public class JwtAuthenticationConverter implements Function<ServerWebExchange, M
 			String bearerRequestHeader = exchange.getRequest().getHeaders().getFirst(SecurityConstants.TOKEN_HEADER);
 
 			if (bearerRequestHeader.startsWith(SecurityConstants.TOKEN_PREFIX)) {
-				authToken = bearerRequestHeader.substring(7);
+				authToken = bearerRequestHeader.substring(SecurityConstants.TOKEN_PREFIX.length());
 			}
 
 			if (authToken == null && !request.getQueryParams().isEmpty()) {
