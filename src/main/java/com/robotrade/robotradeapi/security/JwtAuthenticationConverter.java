@@ -2,7 +2,6 @@ package com.robotrade.robotradeapi.security;
 
 import com.robotrade.robotradeapi.exceptions.GetUsernameFromTokenException;
 import com.robotrade.robotradeapi.exceptions.InvalidTokenException;
-import com.robotrade.robotradeapi.service.ReactiveUserDetailsServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -10,7 +9,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
