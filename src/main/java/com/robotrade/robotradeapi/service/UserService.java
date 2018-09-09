@@ -6,7 +6,6 @@ import com.robotrade.robotradeapi.models.HttpResponseWrapper;
 import com.robotrade.robotradeapi.models.Portfolio;
 import com.robotrade.robotradeapi.models.User;
 import com.robotrade.robotradeapi.models.UserTransaction;
-import com.robotrade.robotradeapi.rabbitMQ.models.AllUsersCapital;
 import com.robotrade.robotradeapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
