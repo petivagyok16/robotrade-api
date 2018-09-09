@@ -18,49 +18,43 @@ import java.util.function.Function;
 @Slf4j
 public class JwtAuthenticationConverter implements Function<ServerWebExchange, Mono<Authentication>> {
 
-	private final ReactiveUserDetailsServiceImpl userDetailsService;
 	private final JwtTokenUtil jwtTokenUtil;
 
 	@Autowired
-	public JwtAuthenticationConverter(ReactiveUserDetailsServiceImpl userDetailsService, JwtTokenUtil jwtTokenUtil) {
-		Assert.notNull(userDetailsService, "userDetailsService cannot be null");
-
-		this.userDetailsService = userDetailsService;
+	public JwtAuthenticationConverter(JwtTokenUtil jwtTokenUtil) {
 		this.jwtTokenUtil = jwtTokenUtil;
 	}
 
 	@Override
 	public Mono<Authentication> apply(ServerWebExchange exchange) throws BadCredentialsException {
 		ServerHttpRequest request = exchange.getRequest();
-		try {
 
-			Authentication authentication = null;
+		try {
 			String authToken = null;
-			String username = null;
+			String username;
 
 			String bearerRequestHeader = exchange.getRequest().getHeaders().getFirst(SecurityConstants.TOKEN_HEADER);
 
-			if (bearerRequestHeader != null && bearerRequestHeader.startsWith(SecurityConstants.TOKEN_PREFIX + " ")) {
+			if (bearerRequestHeader.startsWith(SecurityConstants.TOKEN_PREFIX)) {
 				authToken = bearerRequestHeader.substring(7);
 			}
 
-			if (authToken == null && request.getQueryParams() != null && !request.getQueryParams().isEmpty()) {
-				String authTokenParam = request.getQueryParams().getFirst(SecurityConstants.TOKEN_PARAM);
-				if (authTokenParam != null) authToken = authTokenParam;
+			if (authToken == null && !request.getQueryParams().isEmpty()) {
+				authToken = request.getQueryParams().getFirst(SecurityConstants.TOKEN_PARAM);
 			}
 
-			if (authToken != null) {
-				try {
-					username = jwtTokenUtil.getUsernameFromToken(authToken);
-				} catch (IllegalArgumentException e) {
-					log.error("an error occured during getting username from token", e);
-					return Mono.error(new GetUsernameFromTokenException("An error occurred during validating the token!"));
-				} catch (Exception e) {
-					return Mono.error(new InvalidTokenException("Token is invalid!"));
-				}
-			} else {
-				log.warn("couldn't find bearer string, will ignore the header");
-				return Mono.error(new InvalidTokenException("You can't access the requested resource due to invalid or missing authentication token!"));
+			if (authToken == null) {
+				log.warn("No token found");
+				return Mono.error(new InvalidTokenException("Missing token!"));
+			}
+
+			try {
+				username = jwtTokenUtil.getUsernameFromToken(authToken);
+			} catch (IllegalArgumentException e) {
+				log.error("an error occured during getting username from token", e);
+				return Mono.error(new GetUsernameFromTokenException("An error occurred during validating the token!"));
+			} catch (Exception e) {
+				return Mono.error(new InvalidTokenException("Token is invalid!"));
 			}
 
 			log.info("checking authentication for user " + username);
