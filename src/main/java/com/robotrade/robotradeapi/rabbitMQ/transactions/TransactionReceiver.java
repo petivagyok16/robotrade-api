@@ -27,6 +27,7 @@ public class TransactionReceiver {
 
 	private void receive(String transactionString) {
 		ObjectMapper mapper = new ObjectMapper();
+		log.info(transactionString);
 
 		try {
 			TraderBotTransaction traderBotTransaction = mapper.readValue(transactionString, TraderBotTransaction.class);
