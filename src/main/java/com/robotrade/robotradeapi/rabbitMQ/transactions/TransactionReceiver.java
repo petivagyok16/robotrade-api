@@ -21,22 +21,39 @@ public class TransactionReceiver {
 	}
 
 	@RabbitListener(queues = TransactionConstants.ROBO_TRANSACTION_QUEUE_NAME, admin = "cloudAMQPAdmin", containerFactory = "rabbitListenerContainerFactory")
-	public void receiveTransaction(String transaction) {
+	public void receiveTransaction(byte[] transaction) {
 		this.receive(transaction);
 	}
 
-	private void receive(String transactionString) {
+	private void receive(byte[] transaction) {
 		ObjectMapper mapper = new ObjectMapper();
-		log.info(transactionString);
+		TraderBotTransaction traderBotTransaction = this.parseTransaction(transaction, mapper);
 
-		try {
-			TraderBotTransaction traderBotTransaction = mapper.readValue(transactionString, TraderBotTransaction.class);
+		if (traderBotTransaction != null) {
+			log.info(traderBotTransaction.toString());
 			this.transactionsCalculationService.distributeTransaction(traderBotTransaction);
-
-		} catch (Exception e) {
-			log.info(" --- Error during processing JSON object from Rabbit --- ");
-			e.printStackTrace();
 		}
 	}
 
+	private TraderBotTransaction parseTransaction(byte[] transaction, ObjectMapper mapper) {
+
+		try {
+			return mapper.readValue(transaction, TraderBotTransaction.class);
+		} catch (Exception e) {
+			log.info(" --- Error during processing byte[] transaction from Rabbit, trying to read it as String --- ");
+			return this.parseStringTransaction(new String(transaction), mapper);
+		}
+
+	}
+
+	private TraderBotTransaction parseStringTransaction(String transaction, ObjectMapper mapper) {
+
+		try {
+			return mapper.readValue(transaction, TraderBotTransaction.class);
+		} catch (Exception e) {
+			log.info("--- Error during processing JSON object from Rabbit ---");
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
