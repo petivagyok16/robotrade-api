@@ -3,13 +3,13 @@ package com.robotrade.robotradeapi.rabbitMQ.dev.transactions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.robotrade.robotradeapi.models.TraderBotTransaction;
 import com.robotrade.robotradeapi.rabbitMQ.constants.TransactionConstants;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
 @Slf4j
+@NoArgsConstructor
 public class TransactionReceiver {
-
-	TransactionReceiver() { }
 
 	@RabbitListener(queues = TransactionConstants.ROBO_TRANSACTION_QUEUE_NAME)
 	public void receiveTransaction(String transaction) {
