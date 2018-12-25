@@ -1,4 +1,4 @@
-package com.robotrade.robotradeapi.rabbitMQ.config;
+package com.robotrade.robotradeapi.rabbitMQ.prod;
 
 import com.robotrade.robotradeapi.rabbitMQ.constants.CloudAMQPCredentials;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
@@ -8,9 +8,11 @@ import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
 @EnableRabbit
+@Profile("prod")
 public class CloudAMQPConfig {
 
 	private final CachingConnectionFactory cloudAMPQConnection;

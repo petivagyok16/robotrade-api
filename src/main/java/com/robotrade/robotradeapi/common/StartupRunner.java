@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 @Slf4j
 @Component
-@Profile("localDB")
+@Profile("dev")
 public class StartupRunner implements CommandLineRunner {
 
 	private final UserRepository userRepository;

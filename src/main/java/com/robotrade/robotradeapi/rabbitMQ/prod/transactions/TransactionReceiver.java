@@ -1,4 +1,4 @@
-package com.robotrade.robotradeapi.rabbitMQ.transactions;
+package com.robotrade.robotradeapi.rabbitMQ.prod.transactions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.robotrade.robotradeapi.models.TraderBotTransaction;

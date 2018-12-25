@@ -1,4 +1,4 @@
-package com.robotrade.robotradeapi.rabbitMQ.usersCapital;
+package com.robotrade.robotradeapi.rabbitMQ.prod.usersCapital;
 
 import com.robotrade.robotradeapi.rabbitMQ.constants.UserCapitalConstants;
 import org.springframework.amqp.core.Binding;
@@ -9,8 +9,10 @@ import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
+@Profile("prod")
 public class UsersCapitalConfig {
 
 	@Autowired

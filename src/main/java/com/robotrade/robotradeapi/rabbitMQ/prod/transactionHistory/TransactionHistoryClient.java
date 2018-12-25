@@ -1,4 +1,4 @@
-package com.robotrade.robotradeapi.rabbitMQ.transactionHistory;
+package com.robotrade.robotradeapi.rabbitMQ.prod.transactionHistory;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

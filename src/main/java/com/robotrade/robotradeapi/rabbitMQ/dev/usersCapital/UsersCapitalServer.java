@@ -1,4 +1,4 @@
-package com.robotrade.robotradeapi.rabbitMQ.usersCapital;
+package com.robotrade.robotradeapi.rabbitMQ.dev.usersCapital;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.robotrade.robotradeapi.rabbitMQ.constants.UserCapitalConstants;
@@ -20,7 +20,7 @@ public class UsersCapitalServer {
 		this.transactionsCalculationService= transactionsCalculationService;
 	}
 
-	@RabbitListener(queues = UserCapitalConstants.USERS_CAPITAL_QUEUE_NAME, admin = "cloudAMQPAdmin", containerFactory = "rabbitListenerContainerFactory")
+	@RabbitListener(queues = UserCapitalConstants.USERS_CAPITAL_QUEUE_NAME)
 	private String sendAllUsersCapital(String message) {
 
 		log.info("Sending TraderBotTransaction History!");

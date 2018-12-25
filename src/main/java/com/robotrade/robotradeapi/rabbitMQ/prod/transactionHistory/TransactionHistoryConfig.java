@@ -1,4 +1,4 @@
-package com.robotrade.robotradeapi.rabbitMQ.transactionHistory;
+package com.robotrade.robotradeapi.rabbitMQ.prod.transactionHistory;
 
 import com.robotrade.robotradeapi.rabbitMQ.constants.TransactionHistoryConstants;
 import org.springframework.amqp.core.DirectExchange;
@@ -6,8 +6,10 @@ import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
+@Profile("prod")
 public class TransactionHistoryConfig {
 
 	@Autowired
