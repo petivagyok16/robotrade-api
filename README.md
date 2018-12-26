@@ -15,6 +15,7 @@ This API is the link between RoboTrade stock trader service and its clients.
 - CircleCI + Heroku CI/CD
 
 ### How to install and run the project
+- If using local development environment, mock-trader app has to be in the same folder as robotrade-api
 - import root folder as a project to IntelliJ
 - install maven dependencies
 - install Lombok plugin inside IntelliJ (preferences/plugins/browse plugins)
