@@ -16,7 +16,7 @@ services:
       - "5672:5672"
   mock-trader:
     build:
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
       context: ../mock-trader
     environment:
       - "SPRING_PROFILES_ACTIVE=dev"
@@ -28,7 +28,7 @@ services:
       - mongodb
   robotrade-api:
     build:
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
       context: ./
     environment:
       - "SPRING_PROFILES_ACTIVE=dev"
