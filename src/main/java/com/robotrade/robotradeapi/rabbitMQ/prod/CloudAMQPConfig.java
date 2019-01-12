@@ -31,7 +31,8 @@ public class CloudAMQPConfig {
 		connectionFactory.setUsername(this.configurationService.getUsername());
 		connectionFactory.setPassword(this.configurationService.getPassword());
 		connectionFactory.setVirtualHost(this.configurationService.getVirtualhost());
-		
+
+		// Recommended settings
 		connectionFactory.setRequestedHeartBeat(30);
 		connectionFactory.setConnectionTimeout(30000);
 
